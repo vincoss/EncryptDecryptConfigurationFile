@@ -1,0 +1,52 @@
+﻿<Window x:Class="EncryptDecryptConfigurationFile.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        MaxHeight="200" MaxWidth="450" 
+        Icon="/images/MSDotNetFrameworkIconSmall.png"
+        Title="Encrypt and Decrypt Configuration File">
+    
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Open .NET Executable File" FontWeight="Bold" Grid.Row="0"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox MinWidth="150" Text="{Binding SelectedPath}" ToolTip="{Binding SelectedPath}" Grid.Column="0"/>
+            <Button Content="Open" Command="{Binding SelectCommand}" Margin="5,0,0,0" Grid.Column="1"/>
+
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,15,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <CheckBox  IsChecked="{Binding AppSettingsCheckBox}" Content="App Settings" Grid.Row="0"/>
+            <CheckBox IsChecked="{Binding ConnectionStringsCheckBox}" Content="Connection Strings" Grid.Row="1"/>
+            
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="Encrypt" Command="{Binding EncryptCommand}" Grid.Column="0" MaxHeight="30" Margin="0,0,5,0" VerticalAlignment="Bottom"/>
+            <Button Content="Decrypt" Command="{Binding DecryptCommand}" Grid.Column="1" MaxHeight="30" Margin="5,0,0,0" VerticalAlignment="Bottom"/>
+            
+        </Grid>
+
+    </Grid>
+</Window>

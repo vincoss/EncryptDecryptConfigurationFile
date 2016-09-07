@@ -1,0 +1,13 @@
+bin
+obj
+*.suo
+*.user
+_ReSharper.*
+*.DS_Store
+*.userprefs
+*.pidb
+*.vspx
+*.psess
+packages
+*.snk
+.nuget/NuGet.exe
