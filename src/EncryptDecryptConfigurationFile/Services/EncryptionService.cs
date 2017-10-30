@@ -12,12 +12,30 @@ namespace EncryptDecryptConfigurationFile.Services
     {
         void EncryptFile(string fileName, params string[] sections);
         void DecryptFile(string fileName, params string[] sections);
-        string OpenFile();
+        string OpenFile(bool isWebConfigFile);
     }
 
     public class EncryptionService : IEncryptionService
     {
-        public static void EncryptConnectionString(bool encrypt, string fileName, params string[] sections)
+        private static void EncryptFromExe(bool encrypt, string fileName, params string[] sections)
+        {
+            var configuration = ConfigurationManager.OpenExeConfiguration(fileName);
+            EncryptSections(encrypt, configuration, sections);
+        }
+
+        private static void EncryptWebConfig(bool encrypt, string fileName, params string[] sections)
+        {
+            var configFileMap = new ExeConfigurationFileMap
+            {
+                ExeConfigFilename = fileName
+            };
+            
+            var configuration = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
+            
+            EncryptSections(encrypt, configuration, sections);
+        }
+
+        private static void EncryptSections(bool encrypt, Configuration configuration, params string[] sections)
         {
             if(sections.Length <= 0)
             {
@@ -26,8 +44,6 @@ namespace EncryptDecryptConfigurationFile.Services
 
             try
             {
-                var configuration = ConfigurationManager.OpenExeConfiguration(fileName);
-
                 foreach (var sectionName in sections)
                 {
                     var configSection = configuration.GetSection(sectionName);
@@ -71,7 +87,14 @@ namespace EncryptDecryptConfigurationFile.Services
 
             if (File.Exists(fileName))
             {
-                EncryptConnectionString(true, fileName, sections);
+                if(fileName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    EncryptFromExe(true, fileName, sections);
+                }
+                else
+                {
+                    EncryptWebConfig(true, fileName, sections);
+                }
                 return;
             }
 
@@ -91,17 +114,31 @@ namespace EncryptDecryptConfigurationFile.Services
 
             if (File.Exists(fileName))
             {
-                EncryptConnectionString(false, fileName, sections);
+                if (fileName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    EncryptFromExe(false, fileName, sections);
+                }
+                else
+                {
+                    EncryptWebConfig(false, fileName, sections);
+                }
                 return;
             }
 
             ShowError(fileName);
         }
 
-        public string OpenFile()
+        public string OpenFile(bool isWebConfigFile)
         {
+            string filter = ".Net Executables|*.exe";
+
+            if(isWebConfigFile)
+            {
+                filter = "Web.config|Web.config";
+            }
+
             var dialog = new OpenFileDialog();
-            dialog.Filter = ".Net Executables|*.exe";
+            dialog.Filter = filter;
             dialog.FileName = "";
             dialog.ShowDialog();
             return dialog.FileName;

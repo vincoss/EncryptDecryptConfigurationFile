@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Open .NET Executable File" FontWeight="Bold" Grid.Row="0"/>
+        <TextBlock Text="Open .NET Configuration File" FontWeight="Bold" Grid.Row="0"/>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -30,10 +30,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
-            <CheckBox  IsChecked="{Binding AppSettingsCheckBox}" Content="App Settings" Grid.Row="0"/>
+            <CheckBox IsChecked="{Binding AppSettingsCheckBox}" Content="App Settings" Grid.Row="0"/>
             <CheckBox IsChecked="{Binding ConnectionStringsCheckBox}" Content="Connection Strings" Grid.Row="1"/>
+            <CheckBox IsChecked="{Binding WebConfigCheckBox}" Content="Is Web.config file?" Grid.Row="2"/>
             
         </Grid>
 

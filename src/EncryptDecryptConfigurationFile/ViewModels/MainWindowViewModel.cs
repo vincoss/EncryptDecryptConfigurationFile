@@ -20,6 +20,7 @@ namespace EncryptDecryptConfigurationFile.ViewModels
 
             AppSettingsCheckBox = true;
             ConnectionStringsCheckBox = true;
+            WebConfigCheckBox = false;
 
             PropertyChanged += MainWindowViewModel_PropertyChanged;
         }
@@ -103,7 +104,7 @@ namespace EncryptDecryptConfigurationFile.ViewModels
 
         private void OnSelectedCommand()
         {
-            this.SelectedPath = _service.OpenFile();
+            this.SelectedPath = _service.OpenFile(WebConfigCheckBox);
         }
 
         #endregion
@@ -160,6 +161,21 @@ namespace EncryptDecryptConfigurationFile.ViewModels
                 {
                     _connectionStringsCheckBox = value;
                     OnPropertyChanged("ConnectionStringsCheckBox");
+                }
+            }
+        }
+
+        private bool _webConfigCheckBox;
+
+        public bool WebConfigCheckBox
+        {
+            get { return _webConfigCheckBox; }
+            set
+            {
+                if (_webConfigCheckBox != value)
+                {
+                    _webConfigCheckBox = value;
+                    OnPropertyChanged("WebConfigCheckBox");
                 }
             }
         }
